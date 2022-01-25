@@ -98,7 +98,7 @@ class Carousel extends StatefulWidget {
       this.indicatorBackgroundColor,
       this.activeIndicatorColor,
       this.allowWrap = true,
-      required this.initialPage,
+      this.initialPage = 0,
       this.onCarouselTap,
       required this.children})
       : assert(initialPage >= 0 && initialPage < children.length,
@@ -236,7 +236,7 @@ class _CarouselState extends State<Carousel> {
                                   child: Container(
                                     height: widget.height / 2,
                                     width: 40.0,
-                                    color: active
+                                    color: active!
                                         ? Color(0x77121212)
                                         : Colors.transparent,
                                     child: Icon(
