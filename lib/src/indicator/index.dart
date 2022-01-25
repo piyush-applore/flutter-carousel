@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_carousel/src/services/type_declaration.dart';
 
 class Indicator extends StatelessWidget {
-  final int currentPage;
+  final int? currentPage;
   final dynamic indicatorName;
-  final Color selectedColor;
-  final Color unSelectedColor;
-  final int totalPage;
-  final double width;
-  final PageController controller;
+  final Color? selectedColor;
+  final Color? unSelectedColor;
+  final int? totalPage;
+  final double? width;
+  final PageController? controller;
 
   Indicator({
     this.currentPage,
@@ -41,7 +41,7 @@ Widget getIndicator(
   var indicatorName,
   Props props,
 ) {
-  IndicatorTypes indicatorType = indicatorName.runtimeType == IndicatorTypes
+  IndicatorTypes? indicatorType = indicatorName.runtimeType == IndicatorTypes
       ? indicatorName
       : _getIndicatorType(indicatorName);
 
@@ -75,7 +75,7 @@ Widget getIndicator(
   return indicator;
 }
 
-IndicatorTypes _getIndicatorType(String indicatorName) {
+IndicatorTypes? _getIndicatorType(String? indicatorName) {
   switch (indicatorName) {
     case "bar":
       {

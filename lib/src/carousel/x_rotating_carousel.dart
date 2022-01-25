@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class XcarouselState extends StatelessWidget {
-  int currentPage;
+  int? currentPage;
   bool initial = true;
   final dynamic props;
 
@@ -11,7 +11,7 @@ class XcarouselState extends StatelessWidget {
   }
 
   initiate(index) {
-    double value;
+    double? value;
     if (index == currentPage && initial) value = 0.0;
     initial = false;
     return value;
@@ -19,7 +19,7 @@ class XcarouselState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = props.children.length;
+    int? count = props.children.length;
     initial = true;
     Widget caouselBuilder = new PageView.builder(
         controller: props.controller,
@@ -63,13 +63,13 @@ class XcarouselState extends StatelessWidget {
     return new AnimatedBuilder(
       animation: props.controller,
       builder: (context, child) {
-        double value = 1.0;
+        double? value = 1.0;
         value = initial
             ? initiate(index) ??
                 //  props.controller.page - index
                 0
             : props.controller.page - index;
-        value = (1 - (value.abs())).clamp(0.0, 1.0);
+        value = (1 - (value!.abs())).clamp(0.0, 1.0);
         return new Transform(
           alignment: FractionalOffset.center,
           transform: perspective.scaled(1.0, 1.0, 1.0)
@@ -77,7 +77,7 @@ class XcarouselState extends StatelessWidget {
             ..rotateY(0.0)
             ..rotateZ(0.0),
           child: new Opacity(
-            opacity: math.pow(value, 4),
+            opacity: math.pow(value, 4) as double,
             child: new Material(
               elevation: (value > 0.9 ? 50.0 : 0.0),
               child: new Container(

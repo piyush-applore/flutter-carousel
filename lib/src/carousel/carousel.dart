@@ -18,14 +18,14 @@ class Carousel extends StatefulWidget {
   final dynamic type;
 
   ///The scroll Axis of Carousel
-  final Axis axis;
+  final Axis? axis;
 
   final int initialPage;
 
-  dynamic updatePositionCallBack;
+  late dynamic updatePositionCallBack;
 
   /// call back function triggers when gesture tap is registered
-  final OnCarouselTap onCarouselTap;
+  final OnCarouselTap? onCarouselTap;
 
   /// This feild is required.
   ///
@@ -41,26 +41,26 @@ class Carousel extends StatefulWidget {
   final onPageChange;
 
   /// Defines the Color of the active Indicator
-  final Color activeIndicatorColor;
+  final Color? activeIndicatorColor;
 
   ///defines type of indicator to carousel
   final dynamic indicatorType;
 
-  final bool showArrow;
+  final bool? showArrow;
 
   ///defines the arrow colour
-  final Color arrowColor;
+  final Color? arrowColor;
 
   ///choice to show indicator
   final bool showIndicator;
 
   /// Defines the Color of the non-active Indicator
-  final Color unActiveIndicatorColor;
+  final Color? unActiveIndicatorColor;
 
   /// Paint the background of indicator with the color provided
   ///
   /// The default background color is Color(0xff121212)
-  final Color indicatorBackgroundColor;
+  final Color? indicatorBackgroundColor;
 
   /// Defines if the carousel should wrap once you reach the end or if your at the begining and go left if it should take you to the end
   ///
@@ -75,18 +75,18 @@ class Carousel extends StatefulWidget {
   /// The default value of opacity is 0.5 nothing is initialised.
   ///
 
-  final double indicatorBackgroundOpacity;
+  final double? indicatorBackgroundOpacity;
   dynamic updateIndicator;
-  PageController controller;
+  PageController? controller;
   int currentPage = 0;
 
-  GlobalKey key;
+  GlobalKey? key;
 
   Carousel(
       {this.key,
-      @required this.height,
-      @required this.width,
-      @required this.type,
+      required this.height,
+      required this.width,
+      required this.type,
       this.axis,
       this.showArrow,
       this.arrowColor,
@@ -98,9 +98,9 @@ class Carousel extends StatefulWidget {
       this.indicatorBackgroundColor,
       this.activeIndicatorColor,
       this.allowWrap = true,
-      this.initialPage,
+      required this.initialPage,
       this.onCarouselTap,
-      @required this.children})
+      required this.children})
       : assert(initialPage >= 0 && initialPage < children.length,
             "intialPage must be a int value between 0 and length of children"),
         super(key: key) {
@@ -114,8 +114,8 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int position = 0;
-  double animatedFactor;
-  double offset;
+  double? animatedFactor;
+  late double offset;
   final GlobalKey<RendererState> rendererKey1 = new GlobalKey();
   final GlobalKey<RendererState> rendererKey2 = new GlobalKey();
   @override
@@ -127,42 +127,42 @@ class _CarouselState extends State<Carousel> {
 
   @override
   dispose() {
-    widget.controller.dispose();
+    widget.controller!.dispose();
     super.dispose();
   }
 
   updatePosition(int index) {
-    if (widget.controller.page.round() == widget.children.length - 1) {
-      rendererKey2.currentState.updateRenderer(false);
+    if (widget.controller!.page!.round() == widget.children.length - 1) {
+      rendererKey2.currentState!.updateRenderer(false);
     }
-    if (widget.controller.page.round() == widget.children.length - 2) {
-      rendererKey2.currentState.updateRenderer(false);
+    if (widget.controller!.page!.round() == widget.children.length - 2) {
+      rendererKey2.currentState!.updateRenderer(false);
     }
-    if (widget.controller.page.round() == 1) {
-      rendererKey1.currentState.updateRenderer(false);
+    if (widget.controller!.page!.round() == 1) {
+      rendererKey1.currentState!.updateRenderer(false);
     }
-    if (widget.controller.page.round() == 0) {
-      rendererKey1.currentState.updateRenderer(false);
+    if (widget.controller!.page!.round() == 0) {
+      rendererKey1.currentState!.updateRenderer(false);
     }
   }
 
-  scrollPosition(dynamic updateRender, {String function}) {
+  scrollPosition(dynamic updateRender, {String? function}) {
     updateRender(false);
 
-    if ((widget.controller.page.round() == 0 && function == "back") ||
-        widget.controller.page == widget.children.length - 1 &&
+    if ((widget.controller!.page!.round() == 0 && function == "back") ||
+        widget.controller!.page == widget.children.length - 1 &&
             function != "back") {
       if (widget.allowWrap) {
-        widget.controller.jumpToPage(
-            widget.controller.page.round() == 0 && function == "back"
+        widget.controller!.jumpToPage(
+            widget.controller!.page!.round() == 0 && function == "back"
                 ? widget.children.length - 1
                 : 0);
       }
     } else {
-      widget.controller.animateToPage(
+      widget.controller!.animateToPage(
           (function == "back"
-              ? (widget.controller.page.round() - 1)
-              : (widget.controller.page.round() + 1)),
+              ? (widget.controller!.page!.round() - 1)
+              : (widget.controller!.page!.round() + 1)),
           curve: Curves.easeOut,
           duration: const Duration(milliseconds: 500));
     }
@@ -192,7 +192,7 @@ class _CarouselState extends State<Carousel> {
           child: carousel,
           onTap: () {
             if (widget.onCarouselTap != null) {
-              widget.onCarouselTap(widget.controller.page.round());
+              widget.onCarouselTap!(widget.controller!.page!.round());
             }
           },
         )),
@@ -218,7 +218,7 @@ class _CarouselState extends State<Carousel> {
                                                         ?.round() ==
                                                     0 ||
                                             f == 'forward' &&
-                                                widget.controller.page
+                                                widget.controller!.page
                                                         ?.round() ==
                                                     widget.children.length - 1
                                         ? false
@@ -334,7 +334,7 @@ class _CarouselState extends State<Carousel> {
   }
 }
 
-_getType(String type) {
+_getType(String? type) {
   switch (type) {
     case "simple":
       {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class ZcarouselState extends StatelessWidget {
-  int currentPage;
+  int? currentPage;
   bool initial = true;
   final dynamic props;
 
@@ -13,7 +13,7 @@ class ZcarouselState extends StatelessWidget {
   }
 
   initiate(index) {
-    double value;
+    double? value;
     if (index == currentPage && initial) value = 0.0;
     initial = false;
     return value;
@@ -21,7 +21,7 @@ class ZcarouselState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = props.children.length;
+    int? count = props.children.length;
 
     Widget carouselBuilder = new PageView.builder(
         controller: props.controller,
@@ -62,13 +62,13 @@ class ZcarouselState extends StatelessWidget {
     return new AnimatedBuilder(
       animation: props.controller,
       builder: (context, child) {
-        double value = 1.0;
+        double? value = 1.0;
         value = initial
             ? initiate(index) ??
                 // props.controller.page - index
                 0
             : value = props.controller.page - index;
-        value = (1 - (value.abs() * 0.2)).clamp(0.0, 1.0);
+        value = (1 - (value!.abs() * 0.2)).clamp(0.0, 1.0);
         return new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,7 +80,7 @@ class ZcarouselState extends StatelessWidget {
                 ..rotateY(((value) * 3393) / 90)
                 ..rotateZ(0.0),
               child: new Opacity(
-                opacity: math.pow(value, 2),
+                opacity: math.pow(value, 2) as double,
                 child: new Material(
                   borderRadius: new BorderRadius.circular(
                       (5 - ((1.0 - value) * 25)).clamp(0.1, 5.0)),

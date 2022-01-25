@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import '../../carousel.dart';
 
 class SlideSwipe extends StatelessWidget {
-  int currentPage;
-  bool initial;
+  int? currentPage;
+  late bool initial;
   final Carousel props;
 
   SlideSwipe(this.props);
 
   initiate(index) {
     try {
-      currentPage = props.controller.initialPage.round();
+      currentPage = props.controller!.initialPage.round();
     } catch (e) {
       print("exception here => $e");
     }
-    double value;
-    if (index == currentPage - 1 && initial) value = 1.0;
+    double? value;
+    if (index == currentPage! - 1 && initial) value = 1.0;
     if (index == currentPage && initial) value = 0.0;
-    if (index == currentPage + 1 && initial) {
+    if (index == currentPage! + 1 && initial) {
       value = 1.0;
       initial = false;
     }
@@ -32,7 +32,7 @@ class SlideSwipe extends StatelessWidget {
     initial = true;
     int count = props.children.length;
     Widget carouserBuilder = PageView.builder(
-        scrollDirection: props.axis,
+        scrollDirection: props.axis!,
         controller: props.controller,
         itemCount: count,
         onPageChanged: (i) {
@@ -42,7 +42,7 @@ class SlideSwipe extends StatelessWidget {
           }
           currentPage = i;
         },
-        itemBuilder: (context, index) => builder(index, props.controller));
+        itemBuilder: (context, index) => builder(index, props.controller!));
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -65,11 +65,11 @@ class SlideSwipe extends StatelessWidget {
       builder: (context, child) {
         double value = 1.0;
         value = initial
-            ? initiate(index) ?? controller1.page - index
-            : controller1.page - index;
+            ? initiate(index) ?? controller1.page! - index
+            : controller1.page! - index;
         value = (1 - (value.abs() * .2)).clamp(0.0, 1.0);
         return Opacity(
-          opacity: pow(value, 4),
+          opacity: pow(value, 4) as double,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

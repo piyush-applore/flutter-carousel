@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class RotatingCarouselState extends StatelessWidget {
-  int currentPage;
+  int? currentPage;
   bool initial = true;
   final dynamic props;
 
@@ -11,7 +11,7 @@ class RotatingCarouselState extends StatelessWidget {
   }
 
   initiate(index) {
-    double value;
+    double? value;
     if (index == currentPage && initial) value = 0.0;
     initial = false;
     return value;
@@ -19,7 +19,7 @@ class RotatingCarouselState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = props.children.length;
+    int? count = props.children.length;
 
     Widget caroselBuilder = new PageView.builder(
         scrollDirection: props.axis,
@@ -49,13 +49,13 @@ class RotatingCarouselState extends StatelessWidget {
     return new AnimatedBuilder(
       animation: controller1,
       builder: (context, child) {
-        double value = 1.0;
+        double? value = 1.0;
         value = initial
             ? initiate(index) ??
                 //  controller1.page - index
                 0
             : controller1.page - index;
-        value = (1 - (value.abs() * .2)).clamp(0.0, 1.0);
+        value = (1 - (value!.abs() * .2)).clamp(0.0, 1.0);
         return new RotationTransition(
           turns: new AlwaysStoppedAnimation((value * ((180 * 6))) / 180),
           child: new Column(
@@ -63,7 +63,7 @@ class RotatingCarouselState extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new Opacity(
-                opacity: pow(value, 4),
+                opacity: pow(value, 4) as double,
                 child: new Material(
                   borderRadius: new BorderRadius.circular(
                       (5 - ((1.0 - value) * 25)).clamp(0.1, 5.0)),
